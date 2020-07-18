@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RRHHManagement.Web", "RRHHManagement.Web\RRHHManagement.Web.csproj", "{EB338B12-E0BD-4B56-985E-A81E78EB74E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RRHHManagement.Api", "RRHHManagement.Api\RRHHManagement.Api.csproj", "{414175CE-E4E3-4AB4-8D3C-727AB3ADF3CA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB338B12-E0BD-4B56-985E-A81E78EB74E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB338B12-E0BD-4B56-985E-A81E78EB74E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB338B12-E0BD-4B56-985E-A81E78EB74E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB338B12-E0BD-4B56-985E-A81E78EB74E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{414175CE-E4E3-4AB4-8D3C-727AB3ADF3CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{414175CE-E4E3-4AB4-8D3C-727AB3ADF3CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{414175CE-E4E3-4AB4-8D3C-727AB3ADF3CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{414175CE-E4E3-4AB4-8D3C-727AB3ADF3CA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4F53E638-6EA0-49B7-BA59-480A1802FDD8}
+	EndGlobalSection
+EndGlobal
