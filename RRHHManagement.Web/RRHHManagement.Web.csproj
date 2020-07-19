@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
-    <UserSecretsId>dd186c85-03ec-4ffb-a78f-70eda3d490f0</UserSecretsId>
+    <UserSecretsId>71d3b043-ab7c-4643-92b0-5d5cb8a573ef</UserSecretsId>
   </PropertyGroup>
 
 
@@ -12,11 +12,11 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="wwwroot\fonts\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
