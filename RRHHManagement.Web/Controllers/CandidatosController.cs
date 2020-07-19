@@ -15,5 +15,9 @@ namespace RRHHManagement.Web.Controllers
             return View();
         }
         
+        public ActionResult Detalle()
+        {
+            return View();
+        }
     }
 }

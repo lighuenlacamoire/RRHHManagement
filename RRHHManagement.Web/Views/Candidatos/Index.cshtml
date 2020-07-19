@@ -3,48 +3,134 @@
     ViewData["Title"] = "List";
 }
 
-<div class="page-content">
-
-    <div class="row">
-        <div class="col-sm-10 page-content">
-            <h3 class="page-title">Detalle</h3>
-            <br />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-10">
-            <div class="control-container form-horizontal">
-                <div class="table-scroll" style="height:550px">
-                    <table id="tblCandidatos" class="table table-hover table-bordered table-striped results">
-                        <thead>
-                            <tr>
-                                <th class="col-sm-8">Nombre y Apellido</th>
-                                <th class="col-sm-4">Fecha de Nacimiento</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for(int i = 0; i < 14; i++)
-                            {
-                            <tr>
-                                <td class="col-sm-4"></td>
-                                <td class="col-sm-8"></td>
-                            </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+<div id="divAgregarCandidato" class="seccion">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-sm-12 page-content">
+                <h3 class="page-title">Alta</h3>
+                <br />
             </div>
         </div>
-        <div class="col-sm-2">
-            <div class="row">
-                <div class="col-sm-12">
-                    <a class="btn btn-block btn-outer" onclick="InitViewAssetsList();">Refresh</a>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="control-container form-horizontal">
+                    <h4 class="page-title">Datos Generales</h4>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">Nombre</label>
+                            <div class="col-sm-8">
+                                <input id="txtCanNombre" class="form-control" type="text" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">Apellido</label>
+                            <div class="col-sm-8">
+                                <input id="txtCanApellido" class="form-control" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">Fecha de nacimiento</label>
+                            <div class="col-sm-8">
+                                <input type="date"
+                                       class="form-control input-group"
+                                       id="txtCanFechaNacimiento"
+                                       placeholder="dd/mm/yyyy"
+                                       required
+                                       pattern="(?:30))|(?:(?:0[13578]|1[02])-31))/(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])/(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">Telefono</label>
+                            <div class="col-sm-8">
+                                <input id="txtCanTelefono" class="form-control" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">Email</label>
+                            <div class="col-sm-8">
+                                <input id="txtCanEmail" class="form-control" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-inline text-right">
+                                <a id="btnCanNuevo" 
+                                   class="btn-lg btn-inner icon-green" 
+                                   data-toggle="tooltip" 
+                                   title="Agregar nuevo Candidato"
+                                   onclick="CandidatoIniciar();"
+                                   >
+                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Nuevo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<div id="divListadoCandidatos" class="seccion">
+    <div class="page-content">
+
+        <div class="row">
+            <div class="col-sm-12 page-content">
+                <h3 class="page-title">Detalle</h3>
+                <br />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="control-container">
+                        <div class="input-group stylish-input-group">
+                            <input id="txttblCandidatos" type="text" class="form-control search" placeholder="Buscar..." autofocus />
+                            <span class="input-group-addon">
+                                <a>
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </span>
+                        </div>
+                        <br />
+                        <div class="table-scroll" style="height: 290px">
+                            <table id="tblCandidatos" class="table table-hover table-bordered table-striped results">
+                                <thead>
+                                    <tr>
+                                        <th class="col-sm-4">Nombre y Apellido</th>
+                                        <th class="col-sm-3">Fecha de Nacimiento</th>
+                                        <th class="col-sm-2">Email</th>
+                                        <th class="col-sm-2">Telefono</th>
+                                        <th class="col-sm-1">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < 6; i++)
+                                {
+                                    <tr>
+                                        <td class="col-sm-4">&nbsp;</td>
+                                        <td class="col-sm-3">&nbsp;</td>
+                                        <td class="col-sm-2">&nbsp;</td>
+                                        <td class="col-sm-2">&nbsp;</td>
+                                        <td class="col-sm-1">&nbsp;</td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
 
 
 @section Scripts {
@@ -53,10 +139,10 @@
 
         document.addEventListener('DOMContentLoaded', function () {
 
-            InitViewAssetsList();
+            InitViewCandidatosList();
         });
 
-        function InitViewAssetsList() {
+        function InitViewCandidatosList() {
 
             var tblAssets = document.getElementById('tblCandidatos')
             var body = tblAssets.tBodies[0];
@@ -72,24 +158,121 @@
 
                         for (var i = 0; i < data.length; i++) {
                             var registro = data[i];
-
                             var row = document.createElement('tr');
 
+                            const candidatoNombre = registro['nombre'] + ' ' + registro['apellido'];
+                            const candidatoId = registro["id"];
+
                             row.innerHTML =
-                                '<td class="col-sm-8">' + registro['nombre'] +' ' + registro['apellido']+ '</td>' +
-                                '<td class="col-sm-4">' + registro['fechaNacimiento'] + '</td>';
+                                '<td class="col-sm-4">' + candidatoNombre + '</td>' +
+                                '<td class="col-sm-3">' + registro['fechaNacimiento'] + '</td>' +
+                                '<td class="col-sm-2">' + registro['email'] + '</td>' +
+                                '<td class="col-sm-2">' + registro['telefono'] + '</td>' +
+                            '<td class="col-md-1 text-center">' +
+                            '<a href="#" data-id="' + candidatoId + '" class="icon-red" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="CandidatoEliminar(' + candidatoId+ ')" >' +
+                                '<i class="fa fa-times fa-lg"></i>' +
+                                '</a>' +
+                                '</td>';
 
                             body.appendChild(row);
                         }
                     }
 
                 },
-                error: function (XHR, textStatus, errorThrown) {
-                    alert(XHR.responseText);
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                    AppMessageError('Error', ErrorObtener(jqXHR), true);
                 }
             });
 
         }
+
+        function CandidatoIniciar(edicion) {
+            const nombre = document.getElementById('txtCanNombre');
+            const apellido = document.getElementById('txtCanApellido');
+            const fecha = document.getElementById('txtCanFechaNacimiento');
+            const email = document.getElementById('txtCanEmail');
+            const telefono = document.getElementById('txtCanTelefono');
+
+            const candidato = {
+                nombre: nombre.value,
+                apellido: apellido.value,
+                fechaNacimiento: fecha.value,
+                email: email.value,
+                telefono: telefono.value
+            }
+
+            $.ajax({
+                url: apiService + '/Candidatos',
+                type: 'POST',
+                accepts: "application/json",
+                contentType: "application/json",
+                dataType: 'JSON',
+                data: JSON.stringify(candidato),
+                success: function (data) {
+                    InitViewCandidatosList();
+                    AppMessageSuccess('Aviso!', 'Se ha creado el candidato con exito!', true);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    AppMessageError('Error', ErrorObtener(jqXHR), true);
+                }
+            });
+        }
+        
+        function CandidatoEliminar(id) {
+            alertify.AppModalPrompt("Confirmación", '¿ Esta seguro que desea eliminar el candidato ?',
+                function () {
+
+                    $.ajax({
+                        method: 'DELETE',
+                        url: apiService + '/Candidatos/' + id,
+                        dataType: "JSON",
+                        success: function (data) {
+                            InitViewCandidatosList();
+                            alertify.AppModalOk('OK', '<i class="fa fa-check"></i> El candidato fue eliminado exitósamente.');
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            AppMessageError('Error', ErrorObtener(jqXHR), true);
+                        }
+                    });
+
+                },
+                function () {
+                    //alertify.error('La operación ha sido cancelada');
+                }).set({ labels: { ok: 'SI', cancel: 'NO' } });
+        }
+
+        $("#txttblCandidatos").keyup(function () {
+            var searchTerm = $("#txttblCandidatos").val();
+            var listItem = $('.results tbody').children('tr');
+            var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+
+            $.extend($.expr[':'], {
+                'containsi': function (elem, i, match, array) {
+                    return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+                }
+            });
+
+            $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function (e) {
+                $(this).attr('visible', 'false');
+            });
+
+            $(".results tbody tr:containsi('" + searchSplit + "')").each(function (e) {
+                $(this).attr('visible', 'true');
+            });
+
+            var jobCount = $('.results tbody tr[visible="true"]').length;
+            $('.counter').text(jobCount + ' item');
+
+            if (jobCount == '0') {
+                // $('.no-result').show();
+                $('#tblCandidatos').hide();
+            }
+            else {
+                //$('.no-result').hide();
+                $('#tblCandidatos').show();
+            }
+        });
 
     </script>
 }

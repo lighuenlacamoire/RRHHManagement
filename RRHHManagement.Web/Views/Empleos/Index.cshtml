@@ -1,4 +1,224 @@
 ﻿
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@{
+    ViewData["Title"] = "List";
+}
+
+<div id="divAgregarEmpleo" class="seccion">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-sm-12 page-content">
+                <h3 class="page-title">Alta</h3>
+                <br />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="control-container form-horizontal">
+                    <h4 class="page-title">Datos Generales</h4>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">Razon Social</label>
+                            <div class="col-sm-8">
+                                <input id="txtEmpRazonSocial" class="form-control" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-inline text-right">
+                                <a id="btnEmpNuevo"
+                                   class="btn-lg btn-inner icon-green"
+                                   data-toggle="tooltip"
+                                   title="Agregar nuevo Empleo"
+                                   onclick="EmpleoIniciar();">
+                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Nuevo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="divListadoEmpleos" class="seccion">
+    <div class="page-content">
+
+        <div class="row">
+            <div class="col-sm-12 page-content">
+                <h3 class="page-title">Detalle</h3>
+                <br />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="control-container">
+                    <div class="input-group stylish-input-group">
+                        <input id="txttblEmpleos" type="text" class="form-control search" placeholder="Buscar..." autofocus />
+                        <span class="input-group-addon">
+                            <a>
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </span>
+                    </div>
+                    <br />
+                    <div class="table-scroll" style="height: 290px">
+                        <table id="tblEmpleos" class="table table-hover table-bordered table-striped results">
+                            <thead>
+                                <tr>
+                                    <th class="col-sm-10">Razon Social</th>
+                                    <th class="col-sm-2">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < 6; i++)
+                                {
+                                <tr>
+                                    <td class="col-sm-10">&nbsp;</td>
+                                    <td class="col-sm-2">&nbsp;</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            InitViewEmpleosList();
+        });
+
+        function InitViewEmpleosList() {
+
+            var tblAssets = document.getElementById('tblEmpleos')
+            var body = tblAssets.tBodies[0];
+            body.innerHTML = '';
+
+            $.ajax({
+                url: apiService + '/Empleos',
+                type: "GET",
+                accepts: "application/json",
+                contentType: "application/json",
+                success: function (data) {
+                    if (data) {
+
+                        for (var i = 0; i < data.length; i++) {
+                            var registro = data[i];
+                            var row = document.createElement('tr');
+
+                            const empleoId = registro["id"];
+
+                            row.innerHTML =
+                                '<td class="col-sm-3">' + registro['razonSocial'] + '</td>' +
+                            '<td class="col-md-1 text-center">' +
+                            '<a href="#" data-id="' + empleoId + '" class="icon-red" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="EmpleoEliminar(' + empleoId+ ')" >' +
+                                '<i class="fa fa-times fa-lg"></i>' +
+                                '</a>' +
+                                '</td>';
+
+                            body.appendChild(row);
+                        }
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                    AppMessageError('Error', ErrorObtener(jqXHR), true);
+                }
+            });
+
+        }
+
+        function EmpleoIniciar(edicion) {
+            const nombre = document.getElementById('txtEmpRazonSocial');
+
+            const empleo = {
+                razonSocial: nombre.value,
+            }
+
+            $.ajax({
+                url: apiService + '/Empleos',
+                type: 'POST',
+                accepts: "application/json",
+                contentType: "application/json",
+                dataType: 'JSON',
+                data: JSON.stringify(empleo),
+                success: function (data) {
+                    InitViewEmpleosList();
+                    AppMessageSuccess('Aviso!', 'Se ha creado el empleo con exito!', true);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    AppMessageError('Error', ErrorObtener(jqXHR), true);
+                }
+            });
+        }
+
+        function EmpleoEliminar(id) {
+            alertify.AppModalPrompt("Confirmación", '¿ Esta seguro que desea eliminar el empleo ?',
+                function () {
+
+                    $.ajax({
+                        method: 'DELETE',
+                        url: apiService + '/Empleos/' + id,
+                        dataType: "JSON",
+                        success: function (data) {
+                            InitViewEmpleosList();
+                            alertify.AppModalOk('OK', '<i class="fa fa-check"></i> El empleo fue eliminado exitósamente.');
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            AppMessageError('Error', ErrorObtener(jqXHR), true);
+                        }
+                    });
+
+                },
+                function () {
+                    //alertify.error('La operación ha sido cancelada');
+                }).set({ labels: { ok: 'SI', cancel: 'NO' } });
+        }
+
+        $("#txttblEmpleos").keyup(function () {
+            var searchTerm = $("#txttblEmpleos").val();
+            var listItem = $('.results tbody').children('tr');
+            var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+
+            $.extend($.expr[':'], {
+                'containsi': function (elem, i, match, array) {
+                    return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+                }
+            });
+
+            $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function (e) {
+                $(this).attr('visible', 'false');
+            });
+
+            $(".results tbody tr:containsi('" + searchSplit + "')").each(function (e) {
+                $(this).attr('visible', 'true');
+            });
+
+            var jobCount = $('.results tbody tr[visible="true"]').length;
+            $('.counter').text(jobCount + ' item');
+
+            if (jobCount == '0') {
+                // $('.no-result').show();
+                $('#tblEmpleos').hide();
+            }
+            else {
+                //$('.no-result').hide();
+                $('#tblEmpleos').show();
+            }
+        });
+
+    </script>
+}
