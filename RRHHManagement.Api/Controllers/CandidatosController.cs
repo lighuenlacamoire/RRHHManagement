@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RRHHManagement.Api.Business;
-using RRHHManagement.Api.Context;
 using RRHHManagement.Api.Models.DTO;
 
 namespace RRHHManagement.Api.Controllers

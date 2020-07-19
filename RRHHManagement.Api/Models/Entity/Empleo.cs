@@ -10,6 +10,6 @@ namespace RRHHManagement.Api.Models.Entity
         public int Id { get; set; }
         public string RazonSocial { get; set; }
         public string Periodo { get; set; }
-        public Candidato Candidato { get; set; }
+        public Candidato Candidato { get; set; } = null;
     }
 }

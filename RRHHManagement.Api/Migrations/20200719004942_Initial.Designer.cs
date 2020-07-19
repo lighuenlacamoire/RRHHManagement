@@ -10,7 +10,7 @@ using RRHHManagement.Api.Context;
 namespace RRHHManagement.Api.Migrations
 {
     [DbContext(typeof(SQLDbContext))]
-    [Migration("20200718203050_Initial")]
+    [Migration("20200719004942_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

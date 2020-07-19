@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace RRHHManagement.Api.Business
 {
-    public interface ICandidatosBusiness
+    public interface IEmpleosBusiness
     {
-        IEnumerable<CandidatoDto> GetCandidatos();
-        CandidatoDto GetById(int Id);
-        CandidatoDto Post(CandidatoDto candidatoDto);
-        CandidatoDto Update(CandidatoDto candidatoDto);
-        CandidatoDto DeleteById(int Id);
+        IEnumerable<EmpleoDto> GetEmpleos();
+        EmpleoDto GetById(int Id);
+        EmpleoDto Post(EmpleoDto empleoDto);
+        EmpleoDto Update(EmpleoDto empleoDto);
+        EmpleoDto DeleteById(int Id);
     }
 
-    public class CandidatosBusiness : ICandidatosBusiness
+    public class EmpleosBusiness : IEmpleosBusiness
     {
         #region Dependencies
         private readonly IMapper _mapper;
@@ -29,7 +29,7 @@ namespace RRHHManagement.Api.Business
         #endregion
 
         #region Constructor
-        public CandidatosBusiness(
+        public EmpleosBusiness(
             ILoggerManager loggerManager,
             SQLDbContext context)
         {
@@ -93,146 +93,147 @@ namespace RRHHManagement.Api.Business
 
         #region Metodos
         /// <summary>
-        /// Devuelve el listado de Candidatos
+        /// Devuelve el listado de Empleos
         /// </summary>
         /// <remarks>
-        /// GET Listado de Candidatos
+        /// GET Listado de Empleos
         /// </remarks>
-        /// <returns>Listado de Candidatos</returns>
-        public IEnumerable<CandidatoDto> GetCandidatos()
+        /// <returns>Listado de Empleos</returns>
+        public IEnumerable<EmpleoDto> GetEmpleos()
         {
             try
             {
-                var query = _context.Candidatos;
-                var list = _mapper.Map<IEnumerable<CandidatoDto>>(query);
+                var query = _context.Empleos
+                .Include(o => o.Candidato)
+                .AsNoTracking();
+
+                var list = _mapper.Map<IEnumerable<EmpleoDto>>(query);
 
                 if (list == null || list.Count() == 0)
                 {
-                    _logger.LogWarn("No se han encontrado candidatos");
+                    _logger.LogWarn("No se han encontrado empleos");
                 }
 
                 return list;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Falló al consultar los candidatos");
+                _logger.LogError("Falló al consultar los empleos");
                 throw;
             }
         }
 
         /// <summary>
-        /// Obtiene un Candidato filtrando por Id
+        /// Obtiene un Empleo filtrando por Id
         /// </summary>
-        /// <param name="id">Id del Candidato</param>
+        /// <param name="id">Id del Empleo</param>
         /// <returns></returns>
-        public CandidatoDto GetById(int id)
+        public EmpleoDto GetById(int id)
         {
             try
             {
-                var query = _context.Candidatos
-                .Include(o => o.Empleos)
+                var query = _context.Empleos
+                .Include(o => o.Candidato)
                 .FirstOrDefault(x => x.Id == id);
 
-                return _mapper.Map<CandidatoDto>(query);
+                return _mapper.Map<EmpleoDto>(query);
             }
             catch (Exception ex)
             {
-                _logger.LogError("Falló al consultar por el candidato Id "+ id);
+                _logger.LogError("Falló al consultar por el empleo Id " + id);
                 throw;
             }
         }
 
         /// <summary>
-        /// Creacion Candidato
+        /// Creacion de Empleo
         /// </summary>
         /// <remarks>
-        /// POST Creacion Candidato
+        /// POST Creacion de Empleo
         /// </remarks>
-        /// <param name="candidato">Candidato</param>
+        /// <param name="empleo">Empleo</param>
         /// <returns></returns>
-        public CandidatoDto Post(CandidatoDto candidato)
+        public EmpleoDto Post(EmpleoDto empleo)
         {
             try
             {
-                var entity = _mapper.Map<Candidato>(candidato);
+                var entity = _mapper.Map<Empleo>(empleo);
 
-                _context.Candidatos.Add(entity);
+                _context.Empleos.Add(entity);
                 _context.SaveChanges();
-                _logger.LogInfo(string.Format(@"Se ha creado al candidato {0} {1}, con el Id {2}",candidato.Nombre,candidato.Apellido,candidato.Id));
-                return _mapper.Map<CandidatoDto>(entity);
+                _logger.LogInfo(string.Format(@"Se ha creado al Empleo {0}, con el Id {1}", empleo.RazonSocial, empleo.Id));
+                return _mapper.Map<EmpleoDto>(entity);
             }
             catch (Exception ex)
             {
-                _logger.LogError(string.Format(@"Falló la creacion del candidato {0} {1}", candidato.Nombre, candidato.Apellido));
+                _logger.LogError(string.Format(@"Falló la creacion del empleo {0}", empleo.RazonSocial));
                 throw;
             }
         }
 
         /// <summary>
-        /// Actualizacion de Candidato
+        /// Actualizacion de Empleo
         /// </summary>
         /// <remarks>
-        /// PUT Actualizacion de Candidato
+        /// PUT Actualizacion de Empleo
         /// </remarks>
-        /// <param name="candidato">Candidato</param>
+        /// <param name="empleo">Empleo</param>
         /// <returns></returns>
-        public CandidatoDto Update(CandidatoDto candidato)
+        public EmpleoDto Update(EmpleoDto empleo)
         {
             try
             {
-                var entity = _context.Candidatos.FirstOrDefault(x => x.Id == candidato.Id);
+                var entity = _context.Empleos.FirstOrDefault(x => x.Id == empleo.Id);
 
                 if (entity == null)
                 {
-                    string message = "No se pudo encontrar al candidato de Id " + candidato.Id;
+                    string message = "No se pudo encontrar al empleo de Id " + empleo.Id;
                     _logger.LogWarn(message);
                     throw new Exception(message);
                 }
 
-                entity.Nombre = !string.IsNullOrEmpty(candidato.Nombre) ? candidato.Nombre : entity.Nombre;
-                entity.Apellido = !string.IsNullOrEmpty(candidato.Apellido) ? candidato.Apellido : entity.Apellido;
-                entity.Email = !string.IsNullOrEmpty(candidato.Email) ? candidato.Email : entity.Email;
-                entity.Telefono = !string.IsNullOrEmpty(candidato.Telefono) ? candidato.Telefono : entity.Telefono;
+                entity.RazonSocial = !string.IsNullOrEmpty(empleo.RazonSocial) ? empleo.RazonSocial : entity.RazonSocial;
+                entity.Candidato = empleo.Candidato != null && empleo.Candidato.Id > 0 ? _mapper.Map<Candidato>(empleo.Candidato) : entity.Candidato;
 
                 _context.SaveChanges();
-                _logger.LogInfo(string.Format(@"Se ha actualizado al candidato {0} {1}, con el Id {2}", entity.Nombre, entity.Apellido, entity.Id));
-                return _mapper.Map<CandidatoDto>(entity);
+                _logger.LogInfo(string.Format(@"Se ha actualizado el empleo {0}, con el Id {1}", entity.RazonSocial, entity.Id));
+                return _mapper.Map<EmpleoDto>(entity);
             }
             catch (Exception ex)
             {
-                _logger.LogError(string.Format(@"Falló la actualizacion del candidato {0} {1}", candidato.Nombre, candidato.Apellido));
+                _logger.LogError(string.Format(@"Falló la actualizacion del empleo {0}", empleo.RazonSocial));
                 throw;
             }
         }
 
         /// <summary>
-        /// Borrado de Candidato
+        /// Borrado de Empleo
         /// </summary>
         /// <remarks>
-        /// DELETE Borrado de Candidato
+        /// DELETE Borrado de Empleo
         /// </remarks>
-        /// <param name="id">Id del Candidato</param>
+        /// <param name="id">Id del Empleo</param>
         /// <returns></returns>
-        public CandidatoDto DeleteById(int id)
+        public EmpleoDto DeleteById(int id)
         {
             try
             {
-                var entity = _context.Candidatos.FirstOrDefault(x => x.Id == id);
+                var entity = _context.Empleos.FirstOrDefault(x => x.Id == id);
 
-                if(entity == null)
+                if (entity == null)
                 {
-                    string message = "No se pudo encontrar al candidato de Id " + id;
+                    string message = "No se pudo encontrar el empleo de Id " + id;
                     _logger.LogWarn(message);
                     throw new Exception(message);
                 }
-                _context.Candidatos.Remove(entity);
+                _context.Empleos.Remove(entity);
                 _context.SaveChanges();
-                _logger.LogInfo("Se ha borrado al candidato exitosamente");
-                return _mapper.Map<CandidatoDto>(entity);
+                _logger.LogInfo("Se ha borrado el empleo exitosamente");
+                return _mapper.Map<EmpleoDto>(entity);
             }
             catch (Exception ex)
             {
-                _logger.LogError("Falló el borrado del candidato id "+id);
+                _logger.LogError("Falló el borrado del empleo id " + id);
                 _logger.LogError(ex.Message);
                 throw;
             }

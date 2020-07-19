@@ -39,7 +39,11 @@ namespace RRHHManagement.Api
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                  .AddJsonOptions(opt =>
                  {
+                     //opt.SerializerSettings.Converters.Add(new BsonDocumentJsonConverter());
+                     opt.SerializerSettings.DateFormatString = "yyyy-MM-ddTHH:mm:ssZ";
+                     //opt.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
                      opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                     opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                      opt.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                      opt.SerializerSettings.MissingMemberHandling = Newtonsoft.Json.MissingMemberHandling.Ignore;
                  });
@@ -66,6 +70,7 @@ namespace RRHHManagement.Api
 
             #region Services
             services.AddScoped<ICandidatosBusiness, CandidatosBusiness>();
+            services.AddScoped<IEmpleosBusiness, EmpleosBusiness>();
             #endregion
 
             #region Swagger

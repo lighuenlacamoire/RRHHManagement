@@ -14,5 +14,6 @@ namespace RRHHManagement.Api.Models.DTO
         public string Email { get; set; }
         public string Telefono { get; set; }
         public byte CV { get; set; }
+        public List<EmpleoDto> Empleos { get; set; }
     }
 }

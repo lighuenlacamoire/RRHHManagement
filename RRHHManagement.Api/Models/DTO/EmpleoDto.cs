@@ -10,5 +10,6 @@ namespace RRHHManagement.Api.Models.DTO
         public int Id { get; set; }
         public string RazonSocial { get; set; }
         public string Periodo { get; set; }
+        public CandidatoDto Candidato { get; set; }
     }
 }

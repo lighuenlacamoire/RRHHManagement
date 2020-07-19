@@ -14,6 +14,6 @@ namespace RRHHManagement.Api.Models.Entity
         public string Email { get; set; }
         public string Telefono { get; set; }
         public byte CV { get; set; }
-        public List<Empleo> Empleos { get; set; }
+        public ICollection<Empleo> Empleos { get; set; } = new HashSet<Empleo>();
     }
 }
