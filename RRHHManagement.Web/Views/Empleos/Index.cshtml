@@ -97,6 +97,14 @@
 
         document.addEventListener('DOMContentLoaded', function () {
 
+            if (!alertify.AppModalPrompt) {
+                alertify.dialog('AppModalPrompt', AppModalPromptFactory);
+            }
+
+            if (!alertify.AppModalOk) {
+                alertify.dialog('AppModalOk', AppModalOkFactory);
+            }
+
             InitViewEmpleosList();
         });
 
